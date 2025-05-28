@@ -1,4 +1,15 @@
 <form id="filter-form">
+
+     <div class="mb-4">
+    <label for="search-input" class="form-label fw-bold">Search</label>
+    <input type="text"
+           id="search-input"
+           name="q"
+           class="form-control"
+           placeholder="Search products"
+           value="{{ request('q') }}"
+           style="height: 45px; font-size: 0.95rem;">
+</div>
     {{-- Categories --}}
     <div class="mb-3">
         <h6>Categories</h6>

@@ -21,7 +21,34 @@
                 </select>
             </div>
 
-            {{-- AJAX-loaded Product Grid --}}
+            {{-- Placeholder while loading --}}
+            <div class="row g-3" id="product-loading" style="display: none;">
+                @for ($i = 0; $i < 6; $i++)
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-img-top placeholder-glow" style="height: 200px;">
+                                <div class="placeholder w-100 h-100"></div>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title placeholder-glow">
+                                    <span class="placeholder col-6"></span>
+                                </h6>
+                                <p class="card-text placeholder-glow">
+                                    <span class="placeholder col-4 mb-1"></span><br>
+                                    <span class="placeholder col-5 mb-1"></span><br>
+                                    <span class="placeholder col-3 mb-1"></span>
+                                </p>
+                                <div class="placeholder-glow mt-2">
+                                    <span class="placeholder col-7"></span>
+                                    <span class="placeholder col-5"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endfor
+            </div>
+
+            {{-- Actual Product List --}}
             <div id="product-list" class="row g-3">
                 @include('products.list', ['products' => $products])
             </div>
@@ -30,11 +57,16 @@
 @endsection
 
 @section('scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function fetchProducts() {
             let data = $('#filter-form').serialize() + '&sort_by=' + $('#sort_by').val();
+            $('#product-list').hide();
+            $('#product-loading').show();
+
             $.get("{{ route('products.search') }}", data, function(response) {
-                $('#product-list').html(response.html);
+                $('#product-loading').hide();
+                $('#product-list').html(response.html).fadeIn();
             });
         }
 

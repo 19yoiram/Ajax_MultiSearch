@@ -11,6 +11,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $products = Product::latest()->paginate(12);
+        dd($products);
         return view('products.index', compact('products'));
     }
 
