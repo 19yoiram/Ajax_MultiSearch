@@ -1,15 +1,13 @@
 <form id="filter-form">
 
-     <div class="mb-4">
-    <label for="search-input" class="form-label fw-bold">Search</label>
-    <input type="text"
-           id="search-input"
-           name="q"
-           class="form-control"
-           placeholder="Search products"
-           value="{{ request('q') }}"
-           style="height: 45px; font-size: 0.95rem;">
-</div>
+    <div class="mb-3 d-flex align-items-center gap-2">
+        <input type="text" name="q" id="search-input" class="form-control" placeholder="Search products..."
+            value="{{ request('q') }}" style="max-width: 70%;">
+
+        <button type="button" id="search-button" class="btn btn-primary">
+            Search
+        </button>
+    </div>
     {{-- Categories --}}
     <div class="mb-3">
         <h6>Categories</h6>
@@ -38,26 +36,24 @@
         @endforeach
     </div>
     {{-- Attributes --}}
-<div class="mb-3">
-    <h6>Attributes</h6>
-    @php
-        $attributesGrouped = $products->pluck('attributes')->flatten()->groupBy('key');
-    @endphp
+    <div class="mb-3">
+        <h6>Attributes</h6>
+        @php
+            $attributesGrouped = $products->pluck('attributes')->flatten()->groupBy('key');
+        @endphp
 
-    @foreach ($attributesGrouped as $key => $attributeGroup)
-        <strong>{{ ucfirst($key) }}</strong>
-        @foreach ($attributeGroup->unique('value') as $attr)
-            <div class="form-check ms-3">
-                <input class="form-check-input"
-                       type="checkbox"
-                       name="attributes[{{ $key }}][]"
-                       value="{{ $attr->value }}"
-                       {{ in_array($attr->value, request()->input("attributes.$key", [])) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $attr->value }}</label>
-            </div>
+        @foreach ($attributesGrouped as $key => $attributeGroup)
+            <strong>{{ ucfirst($key) }}</strong>
+            @foreach ($attributeGroup->unique('value') as $attr)
+                <div class="form-check ms-3">
+                    <input class="form-check-input" type="checkbox" name="attributes[{{ $key }}][]"
+                        value="{{ $attr->value }}"
+                        {{ in_array($attr->value, request()->input("attributes.$key", [])) ? 'checked' : '' }}>
+                    <label class="form-check-label">{{ $attr->value }}</label>
+                </div>
+            @endforeach
         @endforeach
-    @endforeach
-</div>
+    </div>
 
 
     {{-- Price Range --}}

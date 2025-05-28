@@ -57,20 +57,25 @@
 @endsection
 
 @section('scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         function fetchProducts() {
             let data = $('#filter-form').serialize() + '&sort_by=' + $('#sort_by').val();
+
             $('#product-list').hide();
             $('#product-loading').show();
 
             $.get("{{ route('products.search') }}", data, function(response) {
+
                 $('#product-loading').hide();
                 $('#product-list').html(response.html).fadeIn();
+
+                $('.filter-sidebar').html(response.filters);
             });
         }
 
-        $(document).on('change', '#filter-form input, #sort_by', function() {
+        $(document).on('change', '#filter-form input, #sort_by', fetchProducts);
+
+        $('#search-btn').on('click', function() {
             fetchProducts();
         });
     </script>
