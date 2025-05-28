@@ -1,4 +1,9 @@
 <div class="row" id="product-list">
+    <div class="mb-3" id="back-button">
+        <a href="{{ route('products.index') }}" class="btn btn-secondary">
+            ← Back to All Products
+        </a>
+    </div>
     @forelse ($products as $product)
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
